@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:testCase id="8af187a6-76f3-4877-bef8-ee390d136cf7" failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="TC01" searchProperties="true" xmlns:con="http://eviware.com/soapui/config"><con:settings><con:setting id="8af187a6-76f3-4877-bef8-ee390d136cf7fileName">TC01</con:setting></con:settings><con:testStep type="request" id="47d482f9-84bd-4475-8ebb-1825af887895" name="GetSupplierByCity"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>medicareSupplierServiceSoapBinding</con:interface><con:operation>GetSupplierByCity</con:operation><con:request name="GetSupplierByCity" outgoingWss="" incomingWss="" timeout="" sslKeystore="" useWsAddressing="false" useWsReliableMessaging="false" wssPasswordType="" id="fc1124d0-6bd1-4e31-9e20-6675c5fe4d47"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/services/medicareSupplierService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:web="http://www.webservicex.net/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <web:GetSupplierByCity>
+         <!--Optional:-->
+         <web:City>${#Global#City}</web:City>
+      </web:GetSupplierByCity>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:assertion type="SOAP Response" id="8d559f5a-b7c1-450d-aca7-008acba0fe87" name="SOAP Response"/><con:assertion type="XPath Match" id="718e618e-f326-4353-9966-020be16cafc0" name="value of node - ZipPlus4"><con:configuration><path>declare namespace soap='http://schemas.xmlsoap.org/soap/envelope/';
+declare namespace ns1='http://www.webservicex.net/';
+//ns1:SupplierData[1]/ns1:ZipPlus4[1]</path><content>75062</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:assertion type="SOAP Fault Assertion" id="5976bb7c-8256-4ae4-acad-8d8f8db1de21" name="Not SOAP Fault"/><con:assertion type="Simple Contains" id="7bf3af41-b599-48b2-a8c6-e9b3e12bbf81" name="Contains"><con:configuration><token>PEARLE VISION INC</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:assertion type="Simple NotContains" id="8272dece-648b-4186-9ad8-360179f03f80" name="Not Contains"><con:configuration><token>abc</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:assertion type="Simple Contains" id="320bdba2-d26b-4c1a-9e23-1af2644f9e0d" name="node"><con:configuration><token>&lt;CompanyName></token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:assertion type="XPath Match" id="73eb873b-ee26-4664-b731-e4cadd7fbe6b" name="Validation of node"><con:configuration><path>declare namespace soap='http://schemas.xmlsoap.org/soap/envelope/';
+declare namespace ns1='http://www.webservicex.net/';
+exists(//ns1:CompanyName)</path><content>true</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:assertion type="Response SLA Assertion" id="27502469-0513-4d0d-8f82-1bf9b4f57759" name="Response SLA"><con:configuration><SLA>200</SLA></con:configuration></con:assertion><con:assertion type="GroovyScriptAssertion" id="fd7e19e2-02ce-4e30-a6d5-2cfac8ef5e25" name="validation of string existence"><con:configuration><scriptText>import com.eviware.soapui.support.XmlHolder
+
+def holder = new XmlHolder( messageExchange.responseContentAsXml )
+def responseXml = holder.getPrettyXml()
+assert responseXml.contains('PEARLE VISION INC')
+
+</scriptText></con:configuration></con:assertion><con:assertion type="GroovyScriptAssertion" id="87767d15-8bd7-4f4e-9da2-2dce9bd4b947" name="Validation of non existence of String"><con:configuration><scriptText>import com.eviware.soapui.support.XmlHolder
+ 
+def holder = new XmlHolder( messageExchange.responseContentAsXml )
+def responseXml = holder.getPrettyXml()
+assert !responseXml.contains('Sujatha')</scriptText></con:configuration></con:assertion><con:assertion type="GroovyScriptAssertion" id="54bda697-f70d-4ed2-9213-3dca517bad4b" name="Validation of node value using script assertion"><con:configuration><scriptText>import com.eviware.soapui.support.XmlHolder 
+ 
+def holder = new XmlHolder( messageExchange.responseContentAsXml )
+def responseXml = holder.getPrettyXml()
+def zipPlus4 = holder.getNodeValue('//ns1:GetSupplierByCityResponse[1]/ns1:SupplierDataLists[1]/ns1:SupplierDatas[1]/ns1:SupplierData[1]/ns1:ZipPlus4[1]')
+assert zipPlus4.equals('75062')</scriptText></con:configuration></con:assertion><con:assertion type="GroovyScriptAssertion" id="f1d3a1fe-4609-43d4-afe4-f278d972b2e2" name="Validation of headers"><con:configuration><scriptText>
+//def status = messageExchange.responseHeaders["#status#"]
+//assert status.toString().equals('[HTTP/1.1 200 OK]')
+
+def status = messageExchange.responseHeaders["Content-Type"]
+assert status.toString().equals('[text/xml;charset=UTF-8]')
+</scriptText></con:configuration></con:assertion><con:assertion type="GroovyScriptAssertion" id="2f57ef73-38a9-4e56-8e01-6e87cc68a806" name="validation of response time"><con:configuration><scriptText>assert messageExchange.timeTaken &lt; 200</scriptText></con:configuration></con:assertion><con:assertion type="GroovyScriptAssertion" id="ca0b2624-8ea3-4861-8eff-3e4da49b1730" name="Script Assertion"><con:configuration/></con:assertion><con:assertion type="GroovyScriptAssertion" id="5412e3ca-ae38-4d82-9e1d-063fa431f35a"><con:configuration/></con:assertion><con:assertion type="XQuery Match" id="28f743bf-e681-4e9b-9928-51cc0f30fb04" name="XQuery Match"><con:configuration><path>declare namespace soap='http://schemas.xmlsoap.org/soap/envelope/';
+declare namespace ns1='http://www.webservicex.net/';
+&lt;zipcodes>
+{
+for $supplier in //ns1:SupplierData
+return &lt;zip>{data($supplier/ns1:SupplierNumber/text())}&lt;/zip>
+}
+&lt;/zipcodes></path><content><![CDATA[<zipcodes>
+  <zip>0132600425</zip>
+  <zip>0180150265</zip>
+  <zip>0282931991</zip>
+  <zip>0282932056</zip>
+  <zip>0282932453</zip>
+  <zip>0282933940</zip>
+  <zip>0295870035</zip>
+  <zip>0302490001</zip>
+  <zip>0326910326</zip>
+  <zip>0462250001</zip>
+  <zip>0483390139</zip>
+  <zip>0483390499</zip>
+  <zip>0507950752</zip>
+  <zip>0552480001</zip>
+  <zip>0640710271</zip>
+  <zip>0650320001</zip>
+  <zip>0670770001</zip>
+  <zip>0682800001</zip>
+  <zip>0822110002</zip>
+  <zip>0879960109</zip>
+  <zip>0995100024</zip>
+  <zip>1047620017</zip>
+  <zip>1085190001</zip>
+  <zip>1085190002</zip>
+  <zip>1098840001</zip>
+  <zip>1245810001</zip>
+  <zip>1248940105</zip>
+  <zip>1268750005</zip>
+  <zip>1268750051</zip>
+  <zip>1307140124</zip>
+  <zip>1307140150</zip>
+  <zip>1307140154</zip>
+  <zip>1324470014</zip>
+  <zip>4164220001</zip>
+  <zip>4360370065</zip>
+  <zip>4360370200</zip>
+  <zip>4555860001</zip>
+  <zip>4595600001</zip>
+  <zip>4633460001</zip>
+  <zip>4697590001</zip>
+  <zip>4794870001</zip>
+  <zip>4806290022</zip>
+  <zip>4806290026</zip>
+  <zip>4835500001</zip>
+  <zip>4877220001</zip>
+  <zip>5115250001</zip>
+</zipcodes>]]></content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:credentials><con:selectedAuthProfile>No Authorization</con:selectedAuthProfile><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.webservicex.net/GetSupplierByCity"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:testStep type="transfer" name="Property Transfer" id="f42a3997-ca20-4c2d-9e7c-2af1767c4ea2"><con:settings/><con:config xsi:type="con:PropertyTransfersStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:transfers setNullOnMissingSource="true" transferTextContent="true" failOnError="true" ignoreEmpty="false" transferToAll="false" entitize="false" transferChildNodes="false"><con:name>zip</con:name><con:sourceType>Response</con:sourceType><con:sourceStep>GetSupplierByCity</con:sourceStep><con:sourcePath>declare namespace soap='http://schemas.xmlsoap.org/soap/envelope/';
+declare namespace ns1='http://www.webservicex.net/';
+//ns1:SupplierData[1]/ns1:ZipPlus4[1]
+</con:sourcePath><con:targetType>Request</con:targetType><con:targetStep>GetSupplierByZipCode</con:targetStep><con:targetPath>declare namespace soap='http://schemas.xmlsoap.org/soap/envelope/';
+declare namespace web='http://www.webservicex.net/';
+//web:GetSupplierByZipCode/web:zip</con:targetPath><con:upgraded>true</con:upgraded></con:transfers></con:config></con:testStep><con:testStep type="request" id="8c9c23a6-87fd-40a8-ac85-dd74b7586a24" name="GetSupplierByZipCode"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>medicareSupplierServiceSoapBinding</con:interface><con:operation>GetSupplierByZipCode</con:operation><con:request name="GetSupplierByZipCode" outgoingWss="" incomingWss="" timeout="" sslKeystore="" useWsAddressing="false" useWsReliableMessaging="false" wssPasswordType="" id="9ad507d1-eee6-46bb-8c71-0a00bd87fcec"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/services/medicareSupplierService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:web="http://www.webservicex.net/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <web:GetSupplierByZipCode>
+         <web:zip>75062</web:zip>
+      </web:GetSupplierByZipCode>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:assertion type="SOAP Response" id="07fc8a36-4d13-487e-ad02-e5d000b67301" name="SOAP Response"/><con:credentials><con:selectedAuthProfile>No Authorization</con:selectedAuthProfile><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.webservicex.net/GetSupplierByZipCode"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:testStep type="groovy" name="Groovy Script" id="14ac0806-2510-4fa5-be6f-ceaedd4c6232"><con:settings/><con:config><script>import com.eviware.soapui.support.XmlHolder
+import com.eviware.soapui.impl.wsdl.testcase.WsdlTestRunContext
+
+def request = testRunner.testCase.testSteps["GetSupplierByCity"].getPropertyValue("Request")
+log.info request
+//def city = testRunner.testCase.project.getPropertyValue("City")
+def city = com.eviware.soapui.SoapUI.globalProperties.getPropertyValue( "City" )
+log.info city
+def xmlgetBank = new XmlHolder(request)
+xmlgetBank.setNodeValue("//web:City",city)
+def newXml= xmlgetBank.getXml();
+testRunner.testCase.testSteps["GetSupplierByCity"].setPropertyValue("Request",newXml)
+
+def getBankStep=testRunner.testCase.getTestStepByName("GetSupplierByCity")
+def context= new WsdlTestRunContext(getBankStep);
+ 
+getBankStep.run(testRunner,context)
+
+ //Response Validation
+
+def response = testRunner.testCase.testSteps["GetSupplierByCity"].getPropertyValue("Response")
+def getBankResponse = new XmlHolder(response)
+ def getResponse= getBankResponse.getNodeValue("//ns1:GetSupplierByCityResponse[1]/ns1:SupplierDataLists[1]/ns1:SupplierDatas[1]/ns1:SupplierData[1]/ns1:ZipPlus4[1]")
+ log.info getResponse
+ def expectedBic = '75062'
+ assert expectedBic==getResponse
+ assert getResponse.contains(expectedBic)
+ assert !getResponse.contains("abc")
+ def val = testRunner.testCase.testSteps['GetSupplierByCity'].testRequest.response.getResponseHeaders()["#status#"][0]
+log.info val
+def expected = "HTTP/1.1 200 OK"
+
+assert val==expected
+
+ def responseTime = testRunner.testCase.testSteps["GetSupplierByCity"].testRequest.response.timeTaken
+ assert responseTime&lt;200
+
+ //Passing zipplus4 response value to getsupplierbyzipcode request
+
+ def getSupplierByZipCodeRequest = testRunner.testCase.testSteps["GetSupplierByZipCode"].getPropertyValue("Request")
+ def xmlgetSupplierByZipCode = new XmlHolder(getSupplierByZipCodeRequest)
+xmlgetSupplierByZipCode.setNodeValue("//web:Zip",getResponse)
+def newXmlZip= xmlgetSupplierByZipCode.getXml();
+testRunner.testCase.testSteps["GetSupplierByZipCode"].setPropertyValue("Request",newXmlZip)
+
+def getSupplierByZipCodeStep=testRunner.testCase.getTestStepByName("GetSupplierByZipCode")
+def contextZipCode= new WsdlTestRunContext(getSupplierByZipCodeStep);
+ 
+ getBankStep.run(testRunner,contextZipCode)
+ log.info 'pass'
+
+ </script></con:config></con:testStep><con:testStep type="groovy" name="Groovy Script1" id="8fac5296-3613-4d70-aaf1-d3cddaab6ea1" disabled="true"><con:settings/><con:config><script>
+//validation of headers
+def val = testRunner.testCase.testSteps['GetSupplierByCity'].testRequest.response.getResponseHeaders()["#status#"][0]
+log.info val
+def expected = "HTTP/1.1 200 OK"
+
+assert val==expected
+
+</script></con:config></con:testStep><con:tearDownScript>// Code to execute the GenerateCSVReport test step
+testRunner.testCase.testSuite.project.testSuites["Library"].testCases["Reporting_Utility"].
+testSteps["GenerateCSVReport"].run(testRunner, context);</con:tearDownScript><con:properties><con:property><con:name>City</con:name><con:value>IRVING</con:value></con:property></con:properties><con:reportParameters/></con:testCase>
